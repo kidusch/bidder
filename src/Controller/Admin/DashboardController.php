@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tender;
 use App\Entity\Bid;
 use App\Entity\Document;
+use App\Entity\Category;
+use App\Entity\Tendertype;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -49,5 +51,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Tenders', 'fas fa-list', Tender::class);
         yield MenuItem::linkToCrud('Bids', 'fas fa-list', Bid::class);
         yield MenuItem::linkToCrud('Documents', 'fas fa-list', Document::class);
+        yield MenuItem::linkToCrud('Categories', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Tender Types', 'fas fa-list', Tendertype::class);
     }
 }

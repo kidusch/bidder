@@ -28,6 +28,12 @@ class Tender
     #[ORM\OneToMany(mappedBy: 'tender', targetEntity: Bid::class)]
     private Collection $bids;
 
+    #[ORM\ManyToOne(inversedBy: 'tenders')]
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tenders')]
+    private ?Tendertype $tendertype = null;
+
     public function __construct()
     {
         $this->bids = new ArrayCollection();
@@ -100,6 +106,35 @@ class Tender
                 $bid->setTender(null);
             }
         }
+
+        return $this;
+    }
+
+    public function __toString() {
+        $value = $this->id . ' - ' . $this->title;
+        return $value;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getTendertype(): ?Tendertype
+    {
+        return $this->tendertype;
+    }
+
+    public function setTendertype(?Tendertype $tendertype): self
+    {
+        $this->tendertype = $tendertype;
 
         return $this;
     }
