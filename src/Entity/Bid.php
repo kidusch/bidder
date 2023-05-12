@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BidRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BidRepository::class)]
@@ -14,13 +16,21 @@ class Bid
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
-    private ?Tender $tender = null;
+    private ?Tender $tender;
 
     #[ORM\Column]
     private ?float $price = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'bid', targetEntity: Document::class)]
+    private Collection $documents;
+
+    public function __construct()
+    {
+        $this->documents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,6 +69,36 @@ class Bid
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setBid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getBid() === $this) {
+                $document->setBid(null);
+            }
+        }
 
         return $this;
     }

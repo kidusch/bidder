@@ -23,6 +23,9 @@ class Document
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    private ?Bid $bid = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Document
     public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getBid(): ?Bid
+    {
+        return $this->bid;
+    }
+
+    public function setBid(?Bid $bid): self
+    {
+        $this->bid = $bid;
 
         return $this;
     }
