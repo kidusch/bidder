@@ -33,21 +33,13 @@ class TelegramChannelService
                     [
                         "text" => "Bid",
                         "callback_data" => "1",
-                        'url' => 'https://t.me/@kenerp_bot'
+                        'url' => 'https://t.me/@kenerp_bot?variable1=value1&variable2=value2'
                     ],
                     [
                         "text" => "Mobile View",
                         "callback_data" => "2",
                         "url" => "t.me/Feshta_bot/feshta"
                     ],
-                    // [
-                    //     "text" => "Button 1",
-                    //     "callback_data" => "1"
-                    // ],
-                    // [
-                    //     "text" => "Button 2",
-                    //     "callback_data" => "2"
-                    // ]
                 ]
             ]
         ]);
@@ -57,7 +49,7 @@ class TelegramChannelService
                 'chat_id' => $channelUsername,
                 'photo' => $photo,
                 'caption' => $message,
-                'has_spoiler' => TRUE,
+                // 'has_spoiler' => TRUE,
                 'reply_markup' => $keyboard
             ],
         ]);

@@ -34,6 +34,15 @@ class Tender
     #[ORM\ManyToOne(inversedBy: 'tenders')]
     private ?Tendertype $tendertype = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $startprice = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $currentprice = null;
+
     public function __construct()
     {
         $this->bids = new ArrayCollection();
@@ -135,6 +144,42 @@ class Tender
     public function setTendertype(?Tendertype $tendertype): self
     {
         $this->tendertype = $tendertype;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getStartprice(): ?float
+    {
+        return $this->startprice;
+    }
+
+    public function setStartprice(?float $startprice): self
+    {
+        $this->startprice = $startprice;
+
+        return $this;
+    }
+
+    public function getCurrentprice(): ?float
+    {
+        return $this->currentprice;
+    }
+
+    public function setCurrentprice(?float $currentprice): self
+    {
+        $this->currentprice = $currentprice;
 
         return $this;
     }

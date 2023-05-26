@@ -2,15 +2,25 @@
 
 namespace App\Controller;
 
+use App\Repository\TenderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use TelegramBot\Api\BotApi;
 use App\Service\TelegramChannelService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class TenderController extends AbstractController
 {
+    private $tenderRepository;
+
+    public  function __construct(TenderRepository $tenderRepository)
+    {
+        $tenderRepository = $this->tenderRepository;
+    }
+
     #[Route('/tender', name: 'app_tender')]
     public function index(): Response
     {
@@ -55,4 +65,38 @@ class TenderController extends AbstractController
 
         return $this->redirectToRoute('app_tender');
     }
+
+
+    /**
+     * API See all tender lists that are active
+     *
+     * @Route("/api-tenders", name="get_tenders", methods={"POST"})
+     */
+    public function gettenders(TenderRepository $tenderrepo): JsonResponse
+    {
+        //$tenderRepository = $this->tenderRepository;
+        // $tenders = $this->tenderRepository->gettenders();
+        $tenders = $tenderrepo->gettenders();
+        //dd($tenders);
+        foreach ($tenders as $tender) {
+            $data[] = [
+                'id' => $tender["id"],
+                'name' => $tender["title"],
+                'description' => $tender["description"],
+                'category' => $tender["category_id"],
+                'tendertype' => $tender["tendertype_id"],
+                'image' => $tender["image"],
+                'startprice' => $tender["startprice"],
+                'currentprice' => $tender["currentprice"],
+                // 'image' => $artist["image"],
+                // 'favorite' => $artist["user_id"],
+                // //'cover' => $artist->getCover(),
+                // 'event' => $artistRepository->findEventByArtist($artist->getId()),
+                // 'host' => $artistRepository->findHostByArtist($artist->getId())
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
 }

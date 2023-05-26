@@ -16,6 +16,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TenderRepository extends ServiceEntityRepository
 {
+    public function gettenders()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM tender";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute();
+        return $result->fetchAllAssociative();
+        //var_dump($result->fetchAllAssociative());
+        die;
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tender::class);
@@ -38,6 +49,9 @@ class TenderRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    
+
 
 //    /**
 //     * @return Tender[] Returns an array of Tender objects
